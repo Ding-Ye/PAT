@@ -8,11 +8,11 @@ int main()
 	int n, schID, score;
 	scanf("%d", &n);//总的参赛人数
 	for(int i = 0; i < n; i++){
-		scanf("%d%d", &schId, &score);
+		scanf("%d%d", &schID, &score);
 		school[schID] += score;
 	}
 	
-	int k = , MAX = -1;
+	int k = 1, MAX = -1;
 	for(int i = 1; i <=n; i ++){
 		if(school[i] > MAX){
 			MAX = school[i];
