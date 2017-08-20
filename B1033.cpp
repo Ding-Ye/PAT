@@ -1,11 +1,13 @@
 //有一个测试用例没有通过不知道为什么
+//之前没有考虑第一行输入是空
 #include <cstdio>
 #include <cstring>
 int main()
 {
 		char a[100];
 		char b[100001];
-		scanf("%s %s", &a, &b);
+        gets(a);//为了防止第一行是空的，因此不能用scanf
+		gets(b);
 		int lena = strlen(a);
 	    int lenb = strlen(b);
 		int flag = 0;
