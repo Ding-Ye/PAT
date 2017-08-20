@@ -23,7 +23,7 @@ int main()
 		}
 		if(j == len2 && HashTable[c1] == false){
 			printf("%c", c1);
-			HashTable[c1] = true;
+			HashTable[c1] = true;//保证a，只输出一次
 		}
 	}
 	return 0;
