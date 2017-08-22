@@ -86,7 +86,7 @@ int main()
 	return 0;
 }
 
-//方法三
+//方法三 用two pointers
 #include <cstdio>
 #include <algorithm>
 using namespace std;
@@ -99,17 +99,15 @@ int main()
 		scanf("%d", &a[i]);
 	}
 	sort(a, a+n);
-	int ans = 1;
-	int i = 0;
-	int j = n-1;
-    while(i < j){
-		if(a[j]/a[i] > p){
-			j--
+	int i = 0, j = 0, count = 1;
+	while(i < n && j < n){
+		while(j < n && a[j] <= (long long)a[i]*p){
+			count = max(count, j - i +1);
+			j++;
 		}
-		ans = max(ans, j-i);
+		i++;
 	}
-	
-	printf("%d\n", ans);
+	printf("%d\n", count);
 	return 0;
 }
 
