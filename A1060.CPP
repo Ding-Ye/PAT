@@ -62,28 +62,14 @@ int main()
 	
 	return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//方法二
+#include <cstdio>
+#include <string>
+using namespace std;
+int main()
+{
+	
+}
 
 
 
