@@ -1,33 +1,30 @@
-#include <cstdio>
-const int maxn = 30;
-int n , V, maxValue = 0;
-int w[maxn], c[maxn];
-
-//这就好像一个二叉树
-void DFS(int index, int sumW, int sumC){
-	if(index == n){ //已经完成对n件物品的选择（递归边界）
-			if(sumW <= V && sumC > maxValue){
-				maxValue = sumC;
-			}
-			return ;
-	}
-	
-	//岔道口
-	DFS(index + 1, sumW, sumC); //不选第index 件物品
-	DFS(index + 1, sumW + w[index], sumC + c[index]);//选第index 件物品
-}
-
-int main()
-{
-	scanf("%d %d", &n, &V);
-	for(int i = 0; i < n; i++){
-		scanf("%d", &w[i]);
-	}
-	for(int i = 0; i < n; i++){
-		scanf("%d", &c[i]);
-	}
-	
-	DFS(0, 0, 0);//初始时为第0件物品，当前总重量和总价值均为0
-	printf("%d\n", maxValue);
-	return 0;
+#include <iostream>
+#include <map>
+#include <string>
+#include <cctype>
+using namespace std;
+int main() {
+    string s, t;
+    getline(cin, s);
+    map<string, int> m;
+    for(int i = 0; i < s.length(); i++) {
+        if(isalnum(s[i])) {
+            s[i] = tolower(s[i]);
+            t += s[i];
+        } else {
+            if(t.length())
+                m[t]++;
+            t = "";
+        }
+    }
+    if(t.length()) m[t]++;
+    int maxn = 0;
+    for(map<string, int>::iterator it = m.begin(); it != m.end(); it++) {
+        if(it->second > maxn) {
+            maxn = it->second;
+            t = it->first;
+        }
+    }
+    cout << t << " " << maxn;
+    return 0;
 }
