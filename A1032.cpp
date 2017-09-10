@@ -24,6 +24,7 @@ int main(){
 	for(p = s1; p != -1; p = node[p].next){
 		node[p].flag = true;
 	}
+	
 	for(p = s2; p != -1; p = node[p].next){
 		if(node[p].flag == true)
 			break;
