@@ -15,10 +15,17 @@ void BFS(int x, int y){
 	Q.push(Node);
 	inq[x][y] = true;
 	while(!Q.empty()){
-		node top = Q.front();
-		Q.pop();
+		node top = Q.front();//取出队首元素top；
+		Q.pop();//队首元素出队
 		for(int i = 0; i < 4; i++){
-			int newX = top.x + X[i]
+			int newX = top.x + X[i];
+			int newY = top.y + Y[i];
+			if(judge(newX, newY)){
+				Node.x = newX;
+				Node.y = newY;
+				Q.push(Node);
+				inq[newX][newY] = true;
+			}
 		}
 	}
 }
