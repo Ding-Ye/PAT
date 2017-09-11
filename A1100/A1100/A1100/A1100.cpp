@@ -1,39 +1,45 @@
-#include<cstdio>
-#include<stack>
+#include <cstdio>
+#include <vector>
+#include <cmath>
 using namespace std;
-const int maxn = 1010;
-int arr[maxn];
-stack<int> st;
-int main()
-{
-	int m, n, T;
-	scanf("%d %d %d", &m, &n, &T);
-	while(T--){
-		while(!st.empty()){//清空栈
-			st.pop();
-		}
-		for(int i = 1; i <= n; i++){
-			scanf("%d", &arr[i]);
-		}
-		int current = 1;
-		bool flag = true;
-		for(int i = 1; i <= n; i++){
-			st.push(i);
-			if(st.size() > m){
-				flag = false;
-				break;
-			}
-			while(!st.empty() && st.top() == arr[current]){
-				st.pop();
-				current++;
-			}
-		}
-		if(st.empty() == true && flag == true){
-			printf("Yes\n");
-		}
-		else{
-			printf("No\n");
-		}
-	}
-	return 0;
+int n, k, p, maxFacSum = -1;
+vector<int> v, ans, tempAns;
+void init() {
+    int temp = 0, index = 1;
+    while(temp <= n) {//当i^p没有超过n时，不断把i^p加入fac
+        v.push_back(temp);
+        temp = pow((double)index, (double)p);
+        index++;
+    }
+}
+void dfs(int index, int tempSum, int tempK, int facSum) {
+    if(tempSum == n && tempK == k) {
+        if(facSum > maxFacSum) {
+            ans = tempAns;
+            maxFacSum = facSum;
+        }
+        return ;
+    }
+    if(tempSum > n || tempK > k) return ;//没有答案
+    if(index >= 1) {
+        tempAns.push_back(index);
+        dfs(index, tempSum + v[index], tempK + 1, facSum + index);//可以选自己
+        tempAns.pop_back();
+        dfs(index - 1, tempSum, tempK, facSum);
+    }
+}
+int main() {
+    scanf("%d%d%d", &n, &k, &p);
+    init();
+    dfs(v.size() - 1, 0, 0, 0);
+    if(maxFacSum == -1) {
+        printf("Impossible");
+        return 0;
+    }
+    printf("%d = ", n);
+    for(int i = 0; i < ans.size(); i++) {
+        if(i != 0) printf(" + ");
+        printf("%d^%d", ans[i], p);
+    }
+    return 0;
 }
