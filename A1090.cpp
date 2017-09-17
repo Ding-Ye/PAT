@@ -2,11 +2,13 @@
 #include <cmath>
 #include <vector>
 using namespace std;
-vector<int> child[maxn];
+
+vector<int> child[maxn];//存放树
 double p ,r ;
 int n, maxDepth = 0, num = 0;
+
 void DFS(int index, int depth){
-	if(child[index].size() == 0){
+	if(child[index].size() == 0){//到达叶节点
 		if(depth > maxDepth){
 			maxDepth = depth;
 			num = -1;
@@ -16,8 +18,9 @@ void DFS(int index, int depth){
 		}
 		return;
 	}
+	
 	for(int i = 0; i < child[index].size(); i++){
-		DFS(child[index][i], depth + 1);
+		DFS(child[index][i], depth + 1);//递归访问结点index的子节点
 	}
 }
 
@@ -25,7 +28,7 @@ int main(){
 	int father, root;
 	scanf("%d %lf %lf", &n, &p, &r);
 	r /= 100;
-	for(int i = 0; i < n; i++){
+	for(int i = 0; i < n; i++){//输入树，并且找到根节点
 		scanf("%d", &father);
 		if(father != -1){
 			child[father].push_back(i);
