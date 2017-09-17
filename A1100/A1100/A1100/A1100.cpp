@@ -1,16 +1,18 @@
 #include <iostream>
 #include <cstdio>
 using namespace std;
-void reset(int *ip)
-{
-	*ip = 0;
-	ip = 0;
+
+void Swap(char* &pstr, char* &qstr){
+	char *t = pstr;
+	pstr = qstr;
+	qstr = t;
 }
 
 int main(){
-	int i = 42;
-	reset(&i);
-	cout<< &i <<i <<endl;
-
+	char *pstr = "china";
+	char *qstr = "america";
+	Swap(pstr, qstr);
+	cout<<pstr<<endl;
+	cout<<qstr<<endl;
 	return 0;
 }
