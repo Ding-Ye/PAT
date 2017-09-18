@@ -1,39 +1,60 @@
-#include <iostream>
+#include <cstdio>
 #include <vector>
 #include <algorithm>
 using namespace std;
 
-const int N = 10;
+const int MAXN = 110;
+struct node{
+	int weight;
+	vector<int> child;//÷∏’Î”Ú
+}Node[MAXN];
 
-vector<int> G[N];
-int leaf[N] = {0};
-int max_h = 1;
+bool cmp(int a, int b){
+	return Node[a].weight > Node[b].weight;
+}
 
-void DFS(int index, int h){
-	max_h = max(h, max_h);
-	if(G[index].size() == 0){
-		leaf[h] ++;
+int n, m, S;
+int path[MAXN]; //º«¬º¬∑æ∂
+
+void DFS(int index, int numNode, int sum){
+	if(sum > S)
+		return;
+	if(sum == S){
+		if(Node[index].child.size() != 0)
+			return;
+		for(int i = 0; i < numNode; i++){
+			printf("%d", Node[path[i]].weight);
+			if(i < numNode - 1)
+				printf(" ");
+			else
+				printf("\n");
+		}
 		return;
 	}
-	for(int i = 0; i < G[index].size(); i++){
-		DFS(G[index][i], h+1);
+	
+	for(int i = 0; i < Node[index].child.size(); i++){
+		int child = Node[index].child[i];
+		path[numNode] = child; // ??
+		DFS(child, numNode + 1, sum + Node[child].weight);
 	}
 }
 
 int main(){
-	int n, m, parent, child, k;
-	scanf("%d%d", &n, &m);
+	scanf("%d %d %d", &n, &m, &S);
+	for(int i = 0; i < n; i++){
+		scanf("%d", &Node[i].weight);
+	}
+	int id, k, child;
 	for(int i = 0; i < m; i++){
-		scanf("%d %d", &parent, &k);
+		scanf("%d %d", &id, &k);
 		for(int j = 0; j < k; j++){
 			scanf("%d", &child);
-			G[parent].push_back(child);
+			Node[id].child.push_back(child);
 		}
+		sort(Node[id].child.begin(), Node[id].child.end(), cmp);
 	}
-	DFS(1, 1);
-	printf("%d", leaf[1]);
-	for(int i = 2; i <= max_h; i++){
-		printf(" %d", leaf[i]);
-	}
+	path[0] = 0;
+	DFS(0, 1, Node[0].weight);
 	return 0;
 }
+
