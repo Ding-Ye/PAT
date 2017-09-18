@@ -92,9 +92,11 @@ const int N = 105;
 		 int id = Q.freont();
 		 Q.pop();
 		 max_h = max(max_h, h[id]);
+		 
 		 if(G[id].size() == 0){
 			 leaf[h[id]] ++;
 		 }
+		 
 		 for(int i = 0; i < G[id].size(); i++){
 			 h[G[id][i]] = h[id] + 1;
 			 Q.push(G[id][i]);
