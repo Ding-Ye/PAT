@@ -2,15 +2,15 @@
 #include <algorithm>
 using namespace std;
 struct node{
-	int v, height;
+	int v, height;		//height为当前子树高度
 	node* lchild, *rchild;
 }*root;
 
 node* newNode(int v){
-	node* Node = new node;
+	node* Node = new node; //申请一个node型变量的地址
 	Node->v = v;
 	Node->height = 1;
-	Node->lchild = Node->rchild = NULL;
+	Node->lchild = Node->rchild = NULL;//这一行很重要
 	
 	return Node;
 }
