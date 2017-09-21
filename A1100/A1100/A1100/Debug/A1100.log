@@ -1,13 +1,15 @@
-﻿生成启动时间为 2017/9/20 16:51:14。
+﻿生成启动时间为 2017/9/21 16:23:21。
      1>项目“H:\PAT\PAT\A1100\A1100\A1100\A1100.vcxproj”在节点 2 上(build 个目标)。
      1>InitializeBuildStatus:
-         正在创建“Debug\A1100.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+         正在对“Debug\A1100.unsuccessfulbuild”执行 Touch 任务。
        ClCompile:
          E:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt A1100.cpp
          A1100.cpp
-     1>h:\pat\pat\a1100\a1100\a1100\a1100.cpp(93): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>h:\pat\pat\a1100\a1100\a1100\a1100.cpp(44): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  e:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(304) : 参见“scanf”的声明
-     1>h:\pat\pat\a1100\a1100\a1100\a1100.cpp(95): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>h:\pat\pat\a1100\a1100\a1100\a1100.cpp(47): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 e:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(304) : 参见“scanf”的声明
+     1>h:\pat\pat\a1100\a1100\a1100\a1100.cpp(49): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  e:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(304) : 参见“scanf”的声明
        ManifestResourceCompile:
          所有输出均为最新。
@@ -27,4 +29,4 @@
 
 生成成功。
 
-已用时间 00:00:00.86
+已用时间 00:00:02.27
