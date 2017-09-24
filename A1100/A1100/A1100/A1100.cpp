@@ -1,107 +1,103 @@
-#include <iostream>
+#include <cstdio>
 #include <algorithm>
-#include <string>
-#include <ctime>
-#include <cmath>
-#include <cassert>
-
 using namespace std;
 
-template<typename Item>
-class MaxHeap{
-	private:
-		Item* data;
-		int count;
-		int capacity; 
-		
-		void shiftUp(int k){
-			while(data[k/2] < data[k] && k > 1){
-				swap(data[k/2], data[k]);
-				k /= 2;
-			}
-		}
-		
-		void shiftDown(int k){
-			while(2*k <= count){
-				int j = 2*k;
-				if(j + 1 <= count && data[j + 1] > data[j]){
-					 j = j + 1;
-				}
-				
-				if(data[k] >= data[j]){
-					break;
-				}
-				
-				swap(data[k], data[j]);
-				k = j;
-			}
-		}
-		
-	public:
-		MaxHeap(int capacity){
-			data = new Item[capacity + 1];
-			count = 0;
-			this->capacity = capacity;
-		}
-		
-		~MaxHeap(){
-			delete[] data;
-		}
-		
-		int size(){
-			return count;
-		}
-		
-		bool isEmpty(){
-			return count == 0;
-		}
-		
-		void insert(Item item){
-			assert(count + 1 <= capacity);
-			data[count + 1] = item;
-			count ++;
-			shiftUp(count);
-		}
-		
-		Item extractMax(){
-			assert(count > 0);
-			Item ret = data[1];
-			
-			swap(data[1], data[count]);
-			count--;
-			shiftDown(1);
-			
-			return ret;
-		}
-};
+const int N = 111;
+int origin[N], tempOri[N], changed[N];
+int n;
 
-int main(){
-	MaxHeap<int> maxheap = MaxHeap<int>(100);
-	
-	srand(time(NULL));
-	for(int i = 0; i < 15; i++){
-		maxheap.insert(rand() % 100);
+bool isSame(int A[], int B[]){
+	for(int i = 1; i <= n; i++){
+		if(A[i] != B[i])
+			return false;
 	}
 	
-	while(!maxheap.isEmpty()){
-		cout << maxheap.extractMax() <<" ";
-	}
-	cout << endl;
-	return 0;
+	return true;
 }
 
+void showArray(int A[]){
+	for(int i = 1; i <= n; i++){
+		printf("%d", A[i]);
+		if(i < n)
+			printf(" ");
+	}
+	printf("\n");
+}
 
+bool insertSort(){
+	bool flag = false;
+	for(int i = 2; i <= n; i++){
+		if(i != 2 && isSame(tempOri, changed)){
+			flag = true;
+		}
+		//插入部分直接用sort代替
+		sort(tempOri, tempOri + i + 1);
+		if(flag = true){
+			return true;
+		}
+	}
+	return false;
+}
 
+void downAdjust(int low, int high){//二叉树不要创建吗？
+	int i = low, j = i*2;
+	while(j <= high){
+		if(j + 1 <= high && tempOri[j + 1] > tempOri[j]){
+			j = j + 1;
+		}
+		
+		if(tempOri[j] > tempOri[i]){
+			swap(tempOri[j], tempOri[i]);
+			i = j;
+			j = i*2;
+		}
+		else{
+			break;
+		}
+	}
+}
 
+void heapSort(){
+	bool flag = false;
+	for(int i = n/2; i >= 1; i--){//堆的建立
+		downAdjust(i, n);
+	}
+	
+	for(int i = n; i > 1; i--){
+		if(i != n && isSame(tempOri, changed)){
+			flag = true;
+		}
+		swap(tempOri[i], tempOri[1]);
+		downAdjust(1, i - 1);
+		if(flag == true){
+			showArray(tempOri);
+			return;
+		}
+	} 
+}
 
-
-
-
-
-
-
-
-
-
+int main(){
+	scanf("%d", &n);
+	for(int i = 1; i <= n; i++){
+		scanf("%d", &origin[i]);
+		tempOri[i] = origin[i];
+	}
+	for(int i = 1; i <= n; i++){
+		scanf("%d", &changed[i]);
+	}
+	
+	if(insertSort()){
+		printf("Insertion Sort\n");
+		showArray(tempOri);
+	}
+	else{
+		printf("Heap Sort\n");
+		for(int i = 1; i <= n; i++){
+			tempOri[i] = origin[i];
+		}
+		heapSort();
+	}
+	return 0;
+}
 
 
