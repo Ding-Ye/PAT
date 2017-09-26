@@ -1,102 +1,81 @@
-#include <cstdio>
-#include <algorithm>
+#include <iostream>
+#include <string>
+#include <map>
 using namespace std;
+const int maxn = 2010;
+const int INF = 1000000000;
 
-const int N = 111;
-int origin[N], tempOri[N], changed[N];
-int n;
+map<int, string> intToString;
+map<string, int> stringToInt;
+map<string, int> Gang;
 
-bool isSame(int A[], int B[]){
-	for(int i = 1; i <= n; i++){
-		if(A[i] != B[i])
-			return false;
-	}
-	
-	return true;
-}
+int G[maxn][maxn] = {0}, weight[maxn] = {0};
+int n, k, numPerson = 0;
+bool vis[maxn] = {false};	//标记是否被访问
 
-void showArray(int A[]){
-	for(int i = 1; i <= n; i++){
-		printf("%d", A[i]);
-		if(i < n)
-			printf(" ");
-	}
-	printf("\n");
-}
-
-bool insertSort(){
-	bool flag = false;
-	for(int i = 2; i <= n; i++){
-		if(i != 2 && isSame(tempOri, changed)){
-			flag = true;
-		}
-		//插入部分直接用sort代替
-		sort(tempOri, tempOri + i + 1);
-		if(flag = true){
-			return true;
-		}
-	}
-	return false;
-}
-
-void downAdjust(int low, int high){//二叉树不要创建吗？
-	int i = low, j = i*2;
-	while(j <= high){
-		if(j + 1 <= high && tempOri[j + 1] > tempOri[j]){
-			j = j + 1;
-		}
-		
-		if(tempOri[j] > tempOri[i]){
-			swap(tempOri[j], tempOri[i]);
-			i = j;
-			j = i*2;
-		}
-		else{
-			break;
-		}
-	}
-}
-
-void heapSort(){
-	bool flag = false;
-	for(int i = n/2; i >= 1; i--){//堆的建立
-		downAdjust(i, n);
-	}
-	
-	for(int i = n; i > 1; i--){
-		if(i != n && isSame(tempOri, changed)){
-			flag = true;
-		}
-		swap(tempOri[i], tempOri[1]);
-		downAdjust(1, i - 1);
-		if(flag == true){
-			showArray(tempOri);
-			return;
-		}
+void DFS(int nowVisit, int& head, int& numMember, int& totalValue){
+	numMember++;
+	vis[nowVisit] = true;
+	if(weight[nowVisit] > weight[head]){
+		head = nowVisit;
 	} 
+	
+	for(int i = 0; i < numPerson; i++){
+		if(G[nowVisit][i] > 0){
+			totalValue += G[nowVisit][i];
+			G[nowVisit][i] = G[i][nowVisit] = 0;
+			if(vis[i] == false){
+				DFS(i, head, numMember, totalValue);
+			}
+		}
+	}
+}
+
+void DFSTrave(){
+	for(int i = 0; i < numPerson; i++){
+		if(vis[i] == false){
+			int head = i, numMember = 0, totalValue = 0;
+			DFS(i, head, numMember, totalValue);
+			if(numMember > 2 && totalValue > k){
+				Gang[intToString[head]] = numMember;
+			}
+		}
+	}
+}
+
+int change(string str){//change函数返回系姓名str对应的编号
+	if(stringToInt.find(str) != stringToInt.end()){
+		return stringToInt[str];
+	}
+	else{
+		stringToInt[str] = numPerson;
+		intToString[numPerson] = str;
+		
+		return numPerson++;
+	}
 }
 
 int main(){
-	scanf("%d", &n);
-	for(int i = 1; i <= n; i++){
-		scanf("%d", &origin[i]);
-		tempOri[i] = origin[i];
-	}
-	for(int i = 1; i <= n; i++){
-		scanf("%d", &changed[i]);
+	int w;
+	string str1, str2;
+	cin >> n >> k;
+	for(int i = 0; i < n; i++){
+		cin>> str1 >> str2 >>w;
+		int id1 = change(str1);
+		int id2 = change(str2);
+		weight[id1] += w;
+		weight[id2] += w;
+		G[id1][id2] += w;
+		G[id2][id1] += w;
 	}
 	
-	if(insertSort()){
-		printf("Insertion Sort\n");
-		showArray(tempOri);
+	DFSTrave();
+	cout<< Gang.size() <<endl;
+	map<string, int> :: iterator it;
+	for(it = Gang.begin(); it != Gang.end(); it++){
+		cout<< it->first<<" "<< it->second<<endl;
 	}
-	else{
-		printf("Heap Sort\n");
-		for(int i = 1; i <= n; i++){
-			tempOri[i] = origin[i];
-		}
-		heapSort();
-	}
+	
 	return 0;
 }
 
