@@ -8,8 +8,9 @@ bool vis[N];
 
 int currentPoint; //当前需要删除的顶点编号
 
+//dfs（v）遍历顶点v所在的连通块
 void dfs(int v){
-	if(v == currentPoint)
+	if(v == currentPoint)//当遍历到已经删除顶点v时，返回
 		return;
 	
 	vis[v] = true;
@@ -25,21 +26,22 @@ int main(){
 	scanf("%d %d %d", &n, &m, &k);
 	for(int i = 0; i < m; i++){
 		int a, b;
-		scanf("%d %d", &a, &b);
+		scanf("%d %d", &a, &b);//无向图的构建
 		G[a].push_back(b);
 		G[b].push_back(a);
 	}
 	
 	for(int query = 0; query < k; query++){
 		scanf("%d", &currentPoint);
-		memst(vis, false, sizeof(vis));
-		int book = 0;
+		memset(vis, false, sizeof(vis));
+		int block = 0;
 		for(int i = 1; i <= n; i++){
 			if(i != currentPoint && vis[i] == false){
 				dfs(i);
 				block++;
 			}
-			printf("%d\n", book - 1);
+		}
+		printf("%d\n", block - 1);
 	}
 	return 0;
 }
