@@ -6,12 +6,13 @@ vector<int> G[N]; //邻接表
 
 int father[N];  
 bool vis[N];
-int findFather(int x){
+int findFather(int x){ //查找x所在的集合
 	int a = x;
 	while(x != father[x]){
 		x = father[x];
 	}
 	
+	//路径压缩
 	while(a != father[a]){
 		int z = a;
 		a = father[a];
@@ -20,7 +21,7 @@ int findFather(int x){
 	return x;
 }
 
-void Uion(int a , int b){
+void Uion(int a , int b){//合并a和b所在的集合
 	int faA = findFather(a);
 	int faB = findFather(b);
 	if(faA != faB){
@@ -28,6 +29,7 @@ void Uion(int a , int b){
 	}
 }
 
+//初始化father数组与hashtable数组
 void init(){
 	for(int i = 1; i < N; i++){
 		father[i] = i;
@@ -45,7 +47,7 @@ int main(){
 		G[b].push_back(a);
 	}
 
-	int currentPoint;
+	int currentPoint; //当前需要删除的顶点编号
 	for(int i = 1; i <= n; i++){
 		for(int j = 0; j < G[i].size(); j++){
 			int u = i; v = G[i][j]
