@@ -1,82 +1,51 @@
-#include <iostream>
-#include <string>
-#include <map>
+#include <cstdio>
+#include <cstring>
+#include <vector>
 using namespace std;
-const int maxn = 2010;
-const int INF = 1000000000;
+const int N = 1111;
+vector<int>G[N];//邻接表
+bool vis[N];
 
-map<int, string> intToString;
-map<string, int> stringToInt;
-map<string, int> Gang;
+int currentPoint; //当前需要删除的顶点编号
 
-int G[maxn][maxn] = {0}, weight[maxn] = {0};
-int n, k, numPerson = 0;
-bool vis[maxn] = {false};	//标记是否被访问
-
-void DFS(int nowVisit, int& head, int& numMember, int& totalValue){
-	numMember++;
-	vis[nowVisit] = true;
-	if(weight[nowVisit] > weight[head]){
-		head = nowVisit;
-	} 
+//dfs（v）遍历顶点v所在的连通块
+void dfs(int v){
+	if(v == currentPoint)//当遍历到已经删除顶点v时，返回
+		return;
 	
-	for(int i = 0; i < numPerson; i++){
-		if(G[nowVisit][i] > 0){
-			totalValue += G[nowVisit][i];
-			G[nowVisit][i] = G[i][nowVisit] = 0;
-			if(vis[i] == false){
-				DFS(i, head, numMember, totalValue);
-			}
+	vis[v] = true;
+	for(int i = 0; i < G[v].size(); i++){
+		if(vis[G[v][i]] == false){
+			dfs(G[v][i]);
 		}
 	}
 }
 
-void DFSTrave(){
-	for(int i = 0; i < numPerson; i++){
-		if(vis[i] == false){
-			int head = i, numMember = 0, totalValue = 0;
-			DFS(i, head, numMember, totalValue);
-			if(numMember > 2 && totalValue > k){
-				Gang[intToString[head]] = numMember;
-			}
-		}
-	}
-}
-
-int change(string str){//change函数返回系姓名str对应的编号
-	if(stringToInt.find(str) != stringToInt.end()){
-		return stringToInt[str];
-	}
-	else{
-		stringToInt[str] = numPerson;
-		intToString[numPerson] = str;
-		
-		return numPerson++;
-	}
-}
-
+int n, m, k;
 int main(){
-	int w;
-	string str1, str2;
-	cin >> n >> k;
-	for(int i = 0; i < n; i++){
-		cin>> str1 >> str2 >>w;
-		int id1 = change(str1);
-		int id2 = change(str2);
-		weight[id1] += w;
-		weight[id2] += w;
-		G[id1][id2] += w;
-		G[id2][id1] += w;
+	scanf("%d %d %d", &n, &m, &k);
+	for(int i = 0; i < m; i++){
+		int a, b;
+		scanf("%d %d", &a, &b);//无向图的构建
+		G[a].push_back(b);
+		G[b].push_back(a);
 	}
 	
-	DFSTrave();
-	cout<< Gang.size() <<endl;
-	map<string, int> :: iterator it;
-	for(it = Gang.begin(); it != Gang.end(); it++){
-		cout<< it->first<<" "<< it->second<<endl;
+	for(int query = 0; query < k; query++){
+		scanf("%d", &currentPoint);
+		memset(vis, false, sizeof(vis));
+		int block = 0;
+		for(int i = 1; i <= n; i++){
+			if(i != currentPoint && vis[i] == false){
+				dfs(i);
+				block++;
+			}
+		}
+		printf("%d\n", block - 1);
 	}
-	
 	return 0;
 }
+
+
 
 
